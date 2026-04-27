@@ -22,12 +22,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Setup SSH deploy key for content repo
+        env:
+          DEPLOY_KEY: ${{ secrets.CONTENT_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/content_deploy_key
+          chmod 600 ~/.ssh/content_deploy_key
+          ssh-keyscan -t ed25519,rsa github.com >> ~/.ssh/known_hosts 2>/dev/null
       - name: Clone content from ai-safety-research/main
         run: |
-          # Clear actions/checkout's auth header so anonymous clone works for cross-repo public access
-          git config --global --unset-all 'http.https://github.com/.extraheader' || true
           rm -rf content
-          git clone --depth 1 https://github.com/hellosco99/ai-safety-research.git content
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/content_deploy_key -o IdentitiesOnly=yes" \
+            git clone --depth 1 git@github.com:hellosco99/ai-safety-research.git content
       - uses: actions/setup-node@v4
         with:
           node-version: 22

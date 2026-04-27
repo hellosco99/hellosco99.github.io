@@ -277,14 +277,14 @@ tr { border-bottom: 1px solid var(--hairline); }
   color: var(--text-strong);
 }
 
-/* ---------- Page width: centered narrow column on all pages ---------- */
+/* ---------- Page width ----------
+   Header spans the wider container so brand sits to the far left and nav to
+   the far right (Lee Robinson / Vercel pattern). Body article is constrained
+   separately to a comfortable reading width so prose stays narrow. */
 @media all and (min-width: 1200px) {
   #quartz-body {
     max-width: 1080px;
     margin: 0 auto;
-  }
-  body[data-slug="index"] #quartz-body {
-    max-width: 640px;
   }
 }
 @media all and (min-width: 800px) and (max-width: 1199px) {
@@ -292,9 +292,13 @@ tr { border-bottom: 1px solid var(--hairline); }
     max-width: 92vw;
     margin: 0 auto;
   }
-  body[data-slug="index"] #quartz-body {
-    max-width: 640px;
-  }
+}
+
+/* Constrain the reading column on index */
+body[data-slug="index"] .center > article {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ---------- Index page: leerob-style minimal homepage ---------- */

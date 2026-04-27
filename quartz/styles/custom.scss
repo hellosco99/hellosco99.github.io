@@ -1,3 +1,16 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// Hide upstream Quartz footer ("Created with Quartz... GitHub")
+footer {
+  display: none !important;
+}
+
+// Tighten top spacing — header sits flush near the viewport top
+#quartz-body .page-header {
+  margin-top: 0.75rem !important;
+}
+
+// Header internal margin override (was 2rem 0)
+header {
+  margin: 0.25rem 0 !important;
+}

@@ -21,7 +21,7 @@ body[data-slug="index"] .sidebar.right {
   margin: 0;
 }
 .home-graph-hero .graph-outer {
-  height: calc(100vh - 9rem);
+  height: calc(100vh - 5rem);
   min-height: 480px;
   border-radius: 12px;
   border: 1px solid var(--lightgray);

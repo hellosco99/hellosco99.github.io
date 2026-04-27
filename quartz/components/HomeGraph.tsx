@@ -8,7 +8,7 @@ import graphStyle from "./styles/graph.scss"
 const heroStyle = `
 .home-graph-hero {
   width: 100%;
-  margin: 0 0 2.5rem 0;
+  margin: 3rem 0 2.5rem 0;
 }
 .home-graph-hero .graph-outer {
   height: 60vh;

@@ -35,6 +35,7 @@ const style = `
 type Link = { href: string; label: string }
 
 const defaultLinks: Link[] = [
+  { href: "/about", label: "About" },
   { href: "/research/", label: "Research" },
   { href: "/papers/", label: "Paper" },
   { href: "/projects/", label: "Project" },

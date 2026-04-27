@@ -2,9 +2,9 @@
 
 /* =========================================================================
    hellosco99 — minimal tech blog theme
-   Palette decisions live in quartz.config.ts (theme.colors)
-   Type scale: body 16.5px / 1.65; h1 2.25rem; h2 1.5rem; h3 1.2rem
-   Spacing rhythm: 4 / 8 / 16 / 24 / 32 / 48 / 72
+   Reference: leerob.com (Lee Robinson) — wordmark + tight nav, casual
+   greeting hero, hairline-separated "Latest" section, tiny social row.
+   Palette: quartz.config.ts (#2563eb accent on neutral grays)
    ========================================================================= */
 
 /* ---------- Reset upstream Quartz chrome we don't want ---------- */
@@ -99,14 +99,14 @@ a.external .external-icon > path { fill: currentColor; }
 
 /* ---------- Header: brand left, nav far right, hairline beneath ---------- */
 .page > #quartz-body .page-header {
-  margin: 2rem 0 0 0 !important;
-  padding-bottom: 1.25rem;
+  margin: 1.5rem 0 0 0 !important;
+  padding-bottom: 1rem;
   border-bottom: 1px solid var(--hairline);
 }
 
 @media all and (max-width: 800px) {
   .page > #quartz-body .page-header {
-    margin: 1.25rem 0 0 0 !important;
+    margin: 1rem 0 0 0 !important;
   }
 }
 
@@ -121,11 +121,21 @@ header h1.page-title {
   flex: 0 0 auto;
 }
 
+/* Tight, leerob-style brand wordmark */
+.page-title {
+  font-size: 0.95rem !important;
+}
+.page-title a {
+  letter-spacing: -0.005em;
+}
+
 /* ---------- Horizontal rule: thin hairline ---------- */
-hr {
+hr,
+hr.hairline {
   height: 1px;
   background: var(--hairline);
-  margin: 2.5rem 0;
+  border: 0;
+  margin: 2.75rem 0 1.5rem 0;
 }
 
 /* ---------- Article reading column ---------- */
@@ -254,14 +264,13 @@ tr { border-bottom: 1px solid var(--hairline); }
 }
 
 /* ---------- Page width: centered narrow column on all pages ---------- */
-/* Constrain the whole grid container so brand+nav+content sit in a focused column */
 @media all and (min-width: 1200px) {
   #quartz-body {
     max-width: 1080px;
     margin: 0 auto;
   }
   body[data-slug="index"] #quartz-body {
-    max-width: 720px;
+    max-width: 640px;
   }
 }
 @media all and (min-width: 800px) and (max-width: 1199px) {
@@ -269,9 +278,12 @@ tr { border-bottom: 1px solid var(--hairline); }
     max-width: 92vw;
     margin: 0 auto;
   }
+  body[data-slug="index"] #quartz-body {
+    max-width: 640px;
+  }
 }
 
-/* ---------- Index page: minimal homepage ---------- */
+/* ---------- Index page: leerob-style minimal homepage ---------- */
 /* Collapse grid to single column and hide the (empty) right sidebar */
 body[data-slug="index"] #quartz-body {
   grid-template-columns: auto !important;
@@ -284,27 +296,108 @@ body[data-slug="index"] .sidebar.right {
   display: none !important;
 }
 
-/* Hide the auto-generated h1 if any; we use the wordmark in header */
-body[data-slug="index"] .center > article > h1:first-child,
-body[data-slug="index"] .center > article > h2:first-child {
+/* Quartz auto-inserts an <hr/> before .page-footer; suppress on index */
+body[data-slug="index"] .center > hr {
+  display: none;
+}
+body[data-slug="index"] .page-footer {
   display: none;
 }
 
-/* Lead paragraph: slightly larger, full color (not muted) for impact */
+/* Greeting h1 — casual, not heroic. Visible (REVERSED previous hide). */
 body[data-slug="index"] .center > article {
-  margin-top: 4rem;
+  margin-top: 3.5rem;
 }
-body[data-slug="index"] .center > article > p:first-of-type {
-  font-size: 1.25rem;
-  line-height: 1.55;
+
+body[data-slug="index"] .center > article > h1:first-child {
+  display: block;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem 0;
   color: var(--text-strong);
-  margin: 0 0 1.25rem 0;
-  letter-spacing: -0.01em;
 }
+body[data-slug="index"] .center > article > h1:first-child > a.internal {
+  display: none;
+}
+
+/* Bio paragraphs: comfortable size, normal text color */
 body[data-slug="index"] .center > article > p {
   color: var(--text);
   font-size: 1rem;
   line-height: 1.7;
+  margin: 0 0 1.1rem 0;
+}
+
+/* Section label ("최근" / Latest) — small caps style, muted */
+body[data-slug="index"] .section-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 1rem 0;
+}
+
+/* Empty-state placeholder under section label */
+body[data-slug="index"] .section-label + p,
+body[data-slug="index"] p > em:only-child {
+  color: var(--muted);
+}
+
+/* Future post list — leerob pattern: YYYY-MM-DD · Title, subtle hover */
+body[data-slug="index"] .post-list,
+body[data-slug="index"] ul.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+body[data-slug="index"] .post-list li {
+  margin: 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+body[data-slug="index"] .post-list li:last-child { border-bottom: 0; }
+body[data-slug="index"] .post-list a {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  color: var(--text-strong);
+  font-weight: 500;
+  border-bottom: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+body[data-slug="index"] .post-list a:hover {
+  color: var(--accent);
+}
+body[data-slug="index"] .post-list time {
+  font-family: var(--codeFont);
+  font-size: 0.85rem;
+  color: var(--muted);
+  flex: 0 0 auto;
+  min-width: 6.5rem;
+}
+
+/* Tiny social row at bottom of index */
+body[data-slug="index"] .social-row {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--hairline);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+body[data-slug="index"] .social-row a {
+  color: var(--muted);
+  font-weight: 450;
+  border-bottom: none;
+}
+body[data-slug="index"] .social-row a:hover {
+  color: var(--accent);
+  border-bottom: 1px solid currentColor;
+}
+body[data-slug="index"] .social-row a .external-icon {
+  display: none;
 }
 
 /* ---------- Mobile tweaks ---------- */
@@ -313,4 +406,6 @@ body[data-slug="index"] .center > article > p {
   h1 { font-size: 1.85rem; }
   h2 { font-size: 1.35rem; }
   header { gap: 1rem; }
+  body[data-slug="index"] .center > article { margin-top: 2rem; }
+  body[data-slug="index"] .center > article > h1:first-child { font-size: 1.6rem; }
 }

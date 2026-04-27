@@ -18,11 +18,11 @@ body[data-slug="index"] .sidebar.right {
 }
 .home-graph-hero {
   width: 100%;
-  margin: 1.25rem 0 0 0;
+  margin: 2rem 0 0 0;
 }
 .home-graph-hero .graph-outer {
   /* Visually integrate with the page — no card, no border. */
-  height: calc(100vh - 14rem);
+  height: calc(100vh - 16rem);
   min-height: 420px;
   border: none;
   background: transparent;
@@ -54,11 +54,11 @@ const defaultHeroOptions = {
   drag: true,
   zoom: true,
   depth: -1,
-  scale: 1.0,
-  repelForce: 0.6,
-  centerForce: 0.3,
-  linkDistance: 50,
-  fontSize: 0.7,
+  scale: 1.6,
+  repelForce: 0.7,
+  centerForce: 0.35,
+  linkDistance: 80,
+  fontSize: 1.0,
   opacityScale: 1,
   showTags: true,
   removeTags: [],

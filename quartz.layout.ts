@@ -5,7 +5,12 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [Component.PageTitle(), Component.TopNav()],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.HomeGraph(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/hellosco99",
@@ -31,10 +36,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: Component.TagList(),
       condition: (page) => page.fileData.slug !== "index",
-    }),
-    Component.ConditionalRender({
-      component: Component.HomeGraph(),
-      condition: (page) => page.fileData.slug === "index",
     }),
   ],
   left: [],

@@ -5,21 +5,30 @@ const style = `
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
   flex: auto;
+  justify-content: flex-end;
 }
 .topnav a {
   color: var(--darkgray);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  padding: 0.3rem 0;
-  border-bottom: 2px solid transparent;
-  transition: color 120ms ease, border-color 120ms ease;
+  font-weight: 450;
+  font-size: 0.9rem;
+  padding: 0;
+  border-bottom: none;
+  transition: color 120ms ease;
 }
 .topnav a:hover {
-  color: var(--secondary);
-  border-bottom-color: var(--secondary);
+  color: var(--dark);
+  border-bottom: none;
+}
+@media all and (max-width: 800px) {
+  .topnav {
+    gap: 1rem;
+  }
+  .topnav a {
+    font-size: 0.85rem;
+  }
 }
 `
 

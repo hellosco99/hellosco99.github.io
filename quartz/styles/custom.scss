@@ -1,16 +1,275 @@
 @use "./base.scss";
 
-// Hide upstream Quartz footer ("Created with Quartz... GitHub")
-footer {
-  display: none !important;
+/* =========================================================================
+   hellosco99 — minimal tech blog theme
+   Palette decisions live in quartz.config.ts (theme.colors)
+   Type scale: body 16.5px / 1.65; h1 2.25rem; h2 1.5rem; h3 1.2rem
+   Spacing rhythm: 4 / 8 / 16 / 24 / 32 / 48 / 72
+   ========================================================================= */
+
+/* ---------- Reset upstream Quartz chrome we don't want ---------- */
+footer { display: none !important; }
+
+/* ---------- Root tokens ---------- */
+:root {
+  --reading-width: 680px;
+  --hairline: var(--lightgray);
+  --muted: var(--gray);
+  --text: var(--darkgray);
+  --text-strong: var(--dark);
+  --accent: var(--secondary);
+  --accent-hover: var(--tertiary);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4.5rem;
 }
 
-// Tighten top spacing — header sits flush near the viewport top
-#quartz-body .page-header {
-  margin-top: 0.75rem !important;
+/* ---------- Base typography ---------- */
+html {
+  font-size: 16.5px;
 }
 
-// Header internal margin override (was 2rem 0)
+body {
+  font-family: var(--bodyFont);
+  font-feature-settings: "ss01", "cv11", "calt";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text);
+  background-color: var(--light);
+}
+
+p, li, td, th, dd, dt {
+  line-height: 1.65;
+}
+
+p { margin: 0 0 1.1rem 0; }
+
+/* Headings — Inter at heavier weights, tight tracking, generous top margin */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-strong);
+  letter-spacing: -0.011em;
+  line-height: 1.25;
+  font-family: var(--headerFont);
+}
+
+h1 { font-size: 2.25rem; font-weight: 700; margin-top: 0; margin-bottom: 1.25rem; letter-spacing: -0.022em; }
+h2 { font-size: 1.5rem;  font-weight: 650; margin-top: 2.5rem; margin-bottom: 0.75rem; letter-spacing: -0.015em; }
+h3 { font-size: 1.2rem;  font-weight: 600; margin-top: 2rem;   margin-bottom: 0.5rem; }
+h4 { font-size: 1rem;    font-weight: 600; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+h5, h6 { font-size: 0.95rem; font-weight: 600; }
+
+/* Strong / emphasis */
+strong { color: var(--text-strong); font-weight: 600; }
+em { color: var(--text-strong); }
+
+/* ---------- Links: subtle, single accent, underline on hover ---------- */
+a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: currentColor;
+}
+
+/* Internal wiki-links: kill the chunky highlight pill */
+a.internal {
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  color: var(--accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+a.internal:hover {
+  background-color: transparent !important;
+  border-bottom-color: var(--accent);
+}
+
+/* External link icon — match text */
+a.external .external-icon > path { fill: currentColor; }
+
+/* ---------- Header: brand left, nav far right, hairline beneath ---------- */
+.page > #quartz-body .page-header {
+  margin: 2rem 0 0 0 !important;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+@media all and (max-width: 800px) {
+  .page > #quartz-body .page-header {
+    margin: 1.25rem 0 0 0 !important;
+  }
+}
+
 header {
-  margin: 0.25rem 0 !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+header h1.page-title {
+  flex: 0 0 auto;
+}
+
+/* ---------- Horizontal rule: thin hairline ---------- */
+hr {
+  height: 1px;
+  background: var(--hairline);
+  margin: 2.5rem 0;
+}
+
+/* ---------- Article reading column ---------- */
+body:not([data-slug="index"]) .center > article {
+  max-width: var(--reading-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body:not([data-slug="index"]) .page-header {
+  max-width: 100%;
+}
+
+/* Article title spacing */
+.article-title {
+  margin: 3rem 0 0.5rem 0 !important;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+}
+
+/* Content meta — date / reading time, muted */
+.content-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+/* Breadcrumbs — small and quiet */
+.breadcrumb-container {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 1.5rem;
+}
+.breadcrumb-container a { color: var(--muted); font-weight: 400; }
+.breadcrumb-container a:hover { color: var(--text); }
+
+/* ---------- Code ---------- */
+code {
+  font-family: var(--codeFont);
+  font-size: 0.86em;
+  background: color-mix(in srgb, var(--hairline) 60%, transparent);
+  color: var(--text-strong);
+  padding: 0.125rem 0.35rem;
+  border-radius: 4px;
+}
+
+pre {
+  background: color-mix(in srgb, var(--hairline) 35%, transparent);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+pre > code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+/* ---------- Blockquote ---------- */
+blockquote {
+  border-left: 2px solid var(--hairline);
+  color: var(--muted);
+  font-style: normal;
+  margin: 1.5rem 0;
+  padding-left: 1.25rem;
+}
+blockquote p { margin-bottom: 0.5rem; }
+
+/* ---------- Sidebar (right) refinements ---------- */
+.sidebar.right {
+  font-size: 0.875rem;
+  padding-top: 5rem !important;
+  gap: 2rem !important;
+}
+
+.sidebar .toc h3,
+.sidebar .backlinks h3,
+.sidebar .graph h3 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 0.75rem 0;
+}
+
+.sidebar .toc-content,
+.sidebar .backlinks ul {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.sidebar a {
+  font-weight: 400;
+  color: var(--text);
+  border-bottom: none;
+}
+.sidebar a:hover {
+  color: var(--accent);
+}
+
+.toc-content .in-view {
+  color: var(--accent);
+}
+
+/* Mini graph (right sidebar) — strip the heavy frame */
+.sidebar .graph .graph-outer {
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: transparent;
+}
+
+/* ---------- Tables ---------- */
+th { border-bottom: 1px solid var(--text-strong); }
+tr { border-bottom: 1px solid var(--hairline); }
+
+/* ---------- Selection ---------- */
+::selection {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  color: var(--text-strong);
+}
+
+/* ---------- Index page: keep it short, no scroll ---------- */
+body[data-slug="index"] .center > article > h1:first-child,
+body[data-slug="index"] .center > article > h2:first-child {
+  display: none;
+}
+
+body[data-slug="index"] .center > article > p:first-of-type {
+  font-size: 1.05rem;
+  color: var(--muted);
+  margin: 0 0 1rem 0;
+  max-width: 640px;
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media all and (max-width: 800px) {
+  html { font-size: 16px; }
+  h1 { font-size: 1.85rem; }
+  h2 { font-size: 1.35rem; }
+  header { gap: 1rem; }
 }

@@ -318,14 +318,14 @@ body[data-slug="index"] .recent-notes > h3 {
   color: var(--text-strong);
 }
 
-/* Quartz RecentNotes list — distill row pattern */
+/* Quartz RecentNotes list (home Recent) — distill row pattern */
 body[data-slug="index"] .recent-notes .recent-ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 body[data-slug="index"] .recent-notes .recent-li {
-  padding: 1.1rem 0;
+  padding: 1.25rem 0;
   border-bottom: 1px solid var(--hairline);
   margin: 0;
 }
@@ -334,19 +334,22 @@ body[data-slug="index"] .recent-notes .recent-li:last-child {
 }
 body[data-slug="index"] .recent-notes .recent-li .section {
   display: grid;
-  grid-template-columns: 9rem 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 7rem 1fr;
+  grid-template-areas:
+    "meta desc";
+  gap: 1.25rem;
   align-items: baseline;
 }
 body[data-slug="index"] .recent-notes .recent-li .meta {
-  order: -1;
+  grid-area: meta;
   font-family: var(--codeFont);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--muted);
   margin: 0;
   letter-spacing: 0.02em;
 }
 body[data-slug="index"] .recent-notes .recent-li .desc {
+  grid-area: desc;
   margin: 0;
 }
 body[data-slug="index"] .recent-notes .recent-li .desc h3 {
@@ -364,6 +367,107 @@ body[data-slug="index"] .recent-notes .recent-li .desc h3 a {
 }
 body[data-slug="index"] .recent-notes .recent-li .desc h3 a:hover {
   color: var(--accent);
+}
+
+/* ---------- Folder/list pages — distill row with optional cover ---------- */
+.page-listing .section-ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0 0;
+}
+.page-listing .section-li {
+  margin: 0;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.page-listing .section-li:last-child { border-bottom: 0; }
+
+.page-listing .section-li .section {
+  display: grid;
+  grid-template-columns: 7rem 1fr 8rem;
+  grid-template-areas:
+    "meta desc tags"
+    "cover desc tags";
+  column-gap: 1.5rem;
+  row-gap: 0.75rem;
+  align-items: start;
+}
+.page-listing .section-li .meta {
+  grid-area: meta;
+  margin: 0;
+  font-family: var(--codeFont);
+  font-size: 0.82rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  align-self: start;
+  padding-top: 0.15rem;
+}
+.page-listing .section-li .desc { grid-area: desc; min-width: 0; }
+.page-listing .section-li .desc h3 {
+  margin: 0 0 0.35rem 0;
+  font-family: var(--headerFont);
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.page-listing .section-li .desc h3 a {
+  color: var(--text-strong);
+  border-bottom: none;
+  background: transparent !important;
+  padding: 0 !important;
+}
+.page-listing .section-li .desc h3 a:hover { color: var(--accent); }
+.page-listing .section-li .desc .row-desc {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.page-listing .section-li .tags {
+  grid-area: tags;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: flex-end;
+  align-self: start;
+  padding-top: 0.25rem;
+}
+.page-listing .section-li .tags li { margin: 0; }
+.page-listing .section-li .tags a {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: var(--codeFont);
+  border-bottom: none;
+  background: transparent !important;
+  padding: 0 !important;
+}
+.page-listing .section-li .tags a:hover { color: var(--accent); }
+
+/* Cover image — sits below the meta column at the row's left side */
+.page-listing .section-li .cover-link {
+  grid-area: cover;
+  display: block;
+  border-bottom: none;
+  background: transparent !important;
+  padding: 0 !important;
+}
+.page-listing .section-li .cover {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--hairline);
+  display: block;
+}
+
+/* Folder page heading — strip "Folder:" prefix style; let the title breathe */
+.page-listing { margin-top: 1rem; }
+.page-listing > p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem 0;
 }
 
 /* Article list rows — distill.pub pattern (date · title · description) */

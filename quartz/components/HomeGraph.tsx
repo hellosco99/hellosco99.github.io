@@ -3,14 +3,25 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import script from "./scripts/graph.inline"
 import graphStyle from "./styles/graph.scss"
 
+// Full-bleed homepage graph: breaks out of the centered content column to span the
+// full viewport width minus a small margin, and stretches vertically to fill the
+// remaining viewport height beneath the top header.
 const heroStyle = `
 .home-graph-hero {
-  width: 100%;
-  margin: 1rem 0 2rem 0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 .home-graph-hero .graph-outer {
-  height: 75vh;
-  min-height: 560px;
+  height: calc(100vh - 9rem);
+  min-height: 480px;
   border-radius: 12px;
   border: 1px solid var(--lightgray);
   background: var(--light);
@@ -23,14 +34,6 @@ const heroStyle = `
 }
 .home-graph-hero .graph-container:active {
   cursor: grabbing;
-}
-.home-graph-hero h2 {
-  margin-bottom: 0.4rem;
-}
-.home-graph-hero .home-graph-caption {
-  font-size: 0.85rem;
-  color: var(--gray);
-  margin-bottom: 1rem;
 }
 `
 
@@ -55,8 +58,6 @@ export default ((opts?: Partial<typeof defaultHeroOptions>) => {
     const config = { ...defaultHeroOptions, ...opts }
     return (
       <div class="home-graph-hero">
-        <h2>지도</h2>
-        <p class="home-graph-caption">노드 = 노트, 엣지 = 위키링크. 드래그·줌·클릭으로 탐색.</p>
         <div class="graph-outer">
           <div class="graph-container" data-cfg={JSON.stringify(config)}></div>
         </div>

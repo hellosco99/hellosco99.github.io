@@ -4,12 +4,11 @@ import * as Component from "./quartz/components"
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
-  header: [],
+  header: [Component.TopNav()],
   afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
+      GitHub: "https://github.com/hellosco99",
     },
   }),
 }
@@ -21,12 +20,17 @@ export const defaultContentPageLayout: PageLayout = {
       component: Component.Breadcrumbs(),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
     Component.ConditionalRender({
-      component: Component.NavCards(),
-      condition: (page) => page.fileData.slug === "index",
+      component: Component.ArticleTitle(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.ContentMeta(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.TagList(),
+      condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ConditionalRender({
       component: Component.HomeGraph(),

@@ -24,6 +24,8 @@ jobs:
           fetch-depth: 0
       - name: Clone content from ai-safety-research/main
         run: |
+          # Clear actions/checkout's auth header so anonymous clone works for cross-repo public access
+          git config --global --unset-all 'http.https://github.com/.extraheader' || true
           rm -rf content
           git clone --depth 1 https://github.com/hellosco99/ai-safety-research.git content
       - uses: actions/setup-node@v4

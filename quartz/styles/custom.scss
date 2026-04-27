@@ -43,18 +43,38 @@ article ~ .page-footer:empty,
   --space-7: 4.5rem;
 }
 
-/* ---------- Base typography ---------- */
+/* ---------- Base typography ----------
+   System font stack — same as distill.pub. macOS uses San Francisco, Windows
+   uses Segoe UI, Android uses Roboto, Linux uses Ubuntu/Cantarell.            */
+$systemSans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+  Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+$systemMono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+  "Liberation Mono", monospace;
+
+:root {
+  --bodyFont: #{$systemSans};
+  --headerFont: #{$systemSans};
+  --codeFont: #{$systemMono};
+}
+
 html {
   font-size: 16.5px;
 }
 
 body {
-  font-family: var(--bodyFont);
-  font-feature-settings: "ss01", "cv11", "calt";
+  font-family: #{$systemSans};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text);
   background-color: var(--light);
+}
+
+h1, h2, h3, h4, h5, h6, .article-title, .page-title {
+  font-family: #{$systemSans} !important;
+}
+
+code, pre, .meta {
+  font-family: #{$systemMono};
 }
 
 p, li, td, th, dd, dt {

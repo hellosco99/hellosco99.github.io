@@ -3,21 +3,22 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import script from "./scripts/graph.inline"
 import graphStyle from "./styles/graph.scss"
 
-// Full-bleed homepage graph: breaks out of the centered content column to span the
-// full viewport width minus a small margin, and stretches vertically to fill the
-// remaining viewport height beneath the top header.
+// On the index page we collapse the grid to a single full-width column and hide
+// the (otherwise empty) right sidebar so the graph hero genuinely fills the viewport.
 const heroStyle = `
+body[data-slug="index"] #quartz-body {
+  grid-template-columns: auto !important;
+  grid-template-areas:
+    "grid-header"
+    "grid-center"
+    "grid-footer" !important;
+}
+body[data-slug="index"] .sidebar.right {
+  display: none !important;
+}
 .home-graph-hero {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 0 1rem;
-  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
 }
 .home-graph-hero .graph-outer {
   height: calc(100vh - 9rem);

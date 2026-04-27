@@ -10,6 +10,20 @@
 /* ---------- Reset upstream Quartz chrome we don't want ---------- */
 footer { display: none !important; }
 
+/* Left sidebar is empty (we removed all components from it) but Quartz still
+   renders the <div class="left sidebar"></div> which then tries to occupy a
+   nonexistent grid-area and warps the layout. Hide it everywhere. */
+.sidebar.left { display: none !important; }
+
+/* The auto-inserted <hr> + empty .page-footer between article and footer just
+   make stray rules float in the layout. Suppress sitewide. */
+article + hr,
+article ~ .page-footer:empty,
+.center > hr {
+  display: none !important;
+}
+.popover-hint:empty { display: none !important; }
+
 /* ---------- Root tokens ---------- */
 :root {
   --reading-width: 680px;

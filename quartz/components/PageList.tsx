@@ -68,15 +68,32 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
     <ul class="section-ul">
       {list.map((page) => {
         const title = page.frontmatter?.title
-        const tags = page.frontmatter?.tags ?? []
-        const description = page.frontmatter?.description as string | undefined
-        const cover = (page.frontmatter as Record<string, unknown> | undefined)?.cover as
-          | string
-          | undefined
+        const fm = page.frontmatter as Record<string, unknown> | undefined
+        const description = fm?.description as string | undefined
+        const cover = fm?.cover as string | undefined
+        const authors = fm?.authors as string | string[] | undefined
+        const authorList =
+          typeof authors === "string"
+            ? authors
+            : Array.isArray(authors)
+              ? authors.join(", ")
+              : undefined
 
         return (
           <li class="section-li">
             <div class="section">
+              <p class="meta">
+                {page.dates && <Date date={getDate(cfg, page)!} locale={cfg.locale} />}
+              </p>
+              <div class="desc">
+                <h3>
+                  <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
+                    {title}
+                  </a>
+                </h3>
+                {authorList && <p class="authors">{authorList}</p>}
+                {description && <p class="row-desc">{description}</p>}
+              </div>
               {cover && (
                 <a
                   href={resolveRelative(fileData.slug!, page.slug!)}
@@ -87,29 +104,6 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
                   <img class="cover" src={cover} alt="" loading="lazy" />
                 </a>
               )}
-              <p class="meta">
-                {page.dates && <Date date={getDate(cfg, page)!} locale={cfg.locale} />}
-              </p>
-              <div class="desc">
-                <h3>
-                  <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
-                    {title}
-                  </a>
-                </h3>
-                {description && <p class="row-desc">{description}</p>}
-              </div>
-              <ul class="tags">
-                {tags.map((tag) => (
-                  <li>
-                    <a
-                      class="internal tag-link"
-                      href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
-                    >
-                      {tag}
-                    </a>
-                  </li>
-                ))}
-              </ul>
             </div>
           </li>
         )

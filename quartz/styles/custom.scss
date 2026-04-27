@@ -369,7 +369,26 @@ body[data-slug="index"] .recent-notes .recent-li .desc h3 a:hover {
   color: var(--accent);
 }
 
-/* ---------- Folder/list pages — distill row with optional cover ---------- */
+/* Folder/list pages: hide right sidebar so the listing has full width */
+body[data-slug$="/index"] .sidebar.right { display: none !important; }
+body[data-slug$="/index"] #quartz-body {
+  grid-template-columns: auto !important;
+  grid-template-areas:
+    "grid-header"
+    "grid-center"
+    "grid-footer" !important;
+}
+
+/* ---------- Folder/list pages — distill.pub row pattern ----------
+   Layout:  [date | tags]   [title + authors + description]   [cover image]
+   Distill uses generous padding, large bold titles, gray italic authors,
+   wide cover images on the right (~16rem) with subtle hairline.            */
+.page-listing { margin-top: 1.5rem; }
+.page-listing > p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem 0;
+}
 .page-listing .section-ul {
   list-style: none;
   padding: 0;
@@ -377,38 +396,70 @@ body[data-slug="index"] .recent-notes .recent-li .desc h3 a:hover {
 }
 .page-listing .section-li {
   margin: 0;
-  padding: 1.5rem 0;
+  padding: 2rem 0;
   border-bottom: 1px solid var(--hairline);
 }
-.page-listing .section-li:last-child { border-bottom: 0; }
+.page-listing .section-li:first-child { border-top: 1px solid var(--hairline); }
+.page-listing .section-li:last-child { border-bottom: 1px solid var(--hairline); }
 
 .page-listing .section-li .section {
   display: grid;
-  grid-template-columns: 7rem 1fr 8rem;
+  grid-template-columns: 7rem minmax(0, 1fr) 16rem;
   grid-template-areas:
-    "meta desc tags"
-    "cover desc tags";
-  column-gap: 1.5rem;
-  row-gap: 0.75rem;
+    "meta desc cover"
+    "tags desc cover";
+  column-gap: 2rem;
+  row-gap: 0.6rem;
   align-items: start;
 }
+
+/* Date column */
 .page-listing .section-li .meta {
   grid-area: meta;
   margin: 0;
-  font-family: var(--codeFont);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--muted);
-  letter-spacing: 0.02em;
   align-self: start;
-  padding-top: 0.15rem;
+  padding-top: 0.4rem;
 }
+
+/* Tags as small pills below date */
+.page-listing .section-li .tags {
+  grid-area: tags;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-self: start;
+}
+.page-listing .section-li .tags li { margin: 0; }
+.page-listing .section-li .tags a {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem !important;
+  background: transparent !important;
+}
+.page-listing .section-li .tags a:hover {
+  color: var(--text-strong);
+  border-color: var(--text-strong);
+}
+
+/* Middle: title, authors, description */
 .page-listing .section-li .desc { grid-area: desc; min-width: 0; }
 .page-listing .section-li .desc h3 {
-  margin: 0 0 0.35rem 0;
+  margin: 0 0 0.4rem 0;
   font-family: var(--headerFont);
-  font-size: 1.3rem;
-  font-weight: 600;
-  line-height: 1.25;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 .page-listing .section-li .desc h3 a {
   color: var(--text-strong);
@@ -417,57 +468,48 @@ body[data-slug="index"] .recent-notes .recent-li .desc h3 a:hover {
   padding: 0 !important;
 }
 .page-listing .section-li .desc h3 a:hover { color: var(--accent); }
+.page-listing .section-li .desc .authors {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-style: italic;
+}
 .page-listing .section-li .desc .row-desc {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.55;
 }
-.page-listing .section-li .tags {
-  grid-area: tags;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  justify-content: flex-end;
-  align-self: start;
-  padding-top: 0.25rem;
-}
-.page-listing .section-li .tags li { margin: 0; }
-.page-listing .section-li .tags a {
-  font-size: 0.75rem;
-  color: var(--muted);
-  font-family: var(--codeFont);
-  border-bottom: none;
-  background: transparent !important;
-  padding: 0 !important;
-}
-.page-listing .section-li .tags a:hover { color: var(--accent); }
 
-/* Cover image — sits below the meta column at the row's left side */
+/* Cover image (right) */
 .page-listing .section-li .cover-link {
   grid-area: cover;
   display: block;
   border-bottom: none;
   background: transparent !important;
   padding: 0 !important;
+  align-self: start;
 }
 .page-listing .section-li .cover {
   width: 100%;
   height: auto;
-  border-radius: 4px;
-  border: 1px solid var(--hairline);
   display: block;
+  border-radius: 2px;
+  background: var(--light);
 }
 
-/* Folder page heading — strip "Folder:" prefix style; let the title breathe */
-.page-listing { margin-top: 1rem; }
-.page-listing > p {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin: 0 0 0.5rem 0;
+/* Mobile: stack in single column, cover on top */
+@media all and (max-width: 800px) {
+  .page-listing .section-li .section {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "cover"
+      "desc"
+      "meta"
+      "tags";
+    row-gap: 0.75rem;
+  }
+  .page-listing .section-li .desc h3 { font-size: 1.35rem; }
 }
 
 /* Article list rows — distill.pub pattern (date · title · description) */

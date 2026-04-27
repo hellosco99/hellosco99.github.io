@@ -71,12 +71,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--headerFont);
 }
 
-/* Distill.pub tone: serif h1/h2 (Source Serif Pro), Inter for h3+ and body */
-h1 { font-size: 2.5rem; font-weight: 600; margin-top: 0; margin-bottom: 1.25rem; letter-spacing: -0.018em; }
-h2 { font-size: 1.65rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 0.75rem; letter-spacing: -0.012em; }
-h3 { font-size: 1.15rem; font-weight: 600; margin-top: 2rem;   margin-bottom: 0.5rem; font-family: var(--bodyFont); }
-h4 { font-size: 1rem;    font-weight: 600; margin-top: 1.75rem; margin-bottom: 0.5rem; font-family: var(--bodyFont); }
-h5, h6 { font-size: 0.95rem; font-weight: 600; font-family: var(--bodyFont); }
+/* All Geist; titles heavy (800) for distill bold-sans look */
+h1 { font-size: 2.5rem; font-weight: 800; margin-top: 0; margin-bottom: 1.25rem; letter-spacing: -0.025em; }
+h2 { font-size: 1.65rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; letter-spacing: -0.018em; }
+h3 { font-size: 1.15rem; font-weight: 700; margin-top: 2rem;   margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+h4 { font-size: 1rem;    font-weight: 700; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+h5, h6 { font-size: 0.95rem; font-weight: 600; }
 
 /* Strong / emphasis */
 strong { color: var(--text-strong); font-weight: 600; }
@@ -167,9 +167,10 @@ body:not([data-slug="index"]) .page-header {
 /* Article title spacing */
 .article-title {
   margin: 3rem 0 0.5rem 0 !important;
-  font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: -0.022em;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  font-family: var(--headerFont);
 }
 
 /* Content meta — date / reading time, muted */
@@ -308,9 +309,9 @@ body[data-slug="index"] .recent-notes {
 }
 body[data-slug="index"] .recent-notes > h3 {
   font-family: var(--headerFont);
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: -0.005em;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.018em;
   border-top: 1px solid var(--hairline);
   padding-top: 1.5rem;
   margin-top: 0;
@@ -355,9 +356,10 @@ body[data-slug="index"] .recent-notes .recent-li .desc {
 body[data-slug="index"] .recent-notes .recent-li .desc h3 {
   margin: 0;
   font-family: var(--headerFont);
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
   line-height: 1.3;
+  letter-spacing: -0.015em;
 }
 body[data-slug="index"] .recent-notes .recent-li .desc h3 a {
   color: var(--text-strong);
@@ -456,10 +458,10 @@ body[data-slug$="/index"] #quartz-body {
 .page-listing .section-li .desc h3 {
   margin: 0 0 0.4rem 0;
   font-family: var(--headerFont);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.65rem;
+  font-weight: 800;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.022em;
 }
 .page-listing .section-li .desc h3 a {
   color: var(--text-strong);

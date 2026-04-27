@@ -14,6 +14,7 @@ import Explorer from "./Explorer"
 import TagList from "./TagList"
 import Graph from "./Graph"
 import HomeGraph from "./HomeGraph"
+import NavCards from "./NavCards"
 import Backlinks from "./Backlinks"
 import Search from "./Search"
 import Footer from "./Footer"
@@ -41,6 +42,7 @@ export {
   TagList,
   Graph,
   HomeGraph,
+  NavCards,
   Backlinks,
   Search,
   Footer,

@@ -25,6 +25,10 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ContentMeta(),
     Component.TagList(),
     Component.ConditionalRender({
+      component: Component.NavCards(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+    Component.ConditionalRender({
       component: Component.HomeGraph(),
       condition: (page) => page.fileData.slug === "index",
     }),

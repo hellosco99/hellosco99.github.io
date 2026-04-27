@@ -9,8 +9,8 @@ const heroStyle = `
   margin: 1rem 0 2rem 0;
 }
 .home-graph-hero .graph-outer {
-  height: 60vh;
-  min-height: 420px;
+  height: 75vh;
+  min-height: 560px;
   border-radius: 12px;
   border: 1px solid var(--lightgray);
   background: var(--light);

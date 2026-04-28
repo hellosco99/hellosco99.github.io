@@ -392,9 +392,11 @@ body[data-slug="index"] .recent-notes .recent-li .desc h3 a:hover {
   color: var(--accent);
 }
 
-/* Folder/list pages: hide right sidebar so the listing has full width */
-body[data-slug$="/index"] .sidebar.right { display: none !important; }
-body[data-slug$="/index"] #quartz-body {
+/* Folder/list pages + about: hide right sidebar so content gets full width */
+body[data-slug$="/index"] .sidebar.right,
+body[data-slug="about"] .sidebar.right { display: none !important; }
+body[data-slug$="/index"] #quartz-body,
+body[data-slug="about"] #quartz-body {
   grid-template-columns: auto !important;
   grid-template-areas:
     "grid-header"

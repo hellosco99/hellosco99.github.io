@@ -58,7 +58,7 @@ export const defaultContentPageLayout: PageLayout = {
   right: [
     Component.ConditionalRender({
       component: Component.Graph(),
-      condition: (page) => page.fileData.slug !== "index",
+      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "about",
     }),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),

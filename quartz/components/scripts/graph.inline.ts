@@ -184,6 +184,12 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     "--dark",
     "--darkgray",
     "--bodyFont",
+    "--graph-paper-defense",
+    "--graph-paper-attack",
+    "--graph-paper-phenomena",
+    "--graph-paper-interp",
+    "--graph-research",
+    "--graph-project",
   ] as const
   const computedStyleMap = cssVars.reduce(
     (acc, key) => {
@@ -193,16 +199,26 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     {} as Record<(typeof cssVars)[number], string>,
   )
 
-  // calculate color
+  // calculate color: paper sub-tags > folder bucket > visited/tag > default
   const color = (d: NodeData) => {
     const isCurrent = d.id === slug
-    if (isCurrent) {
-      return computedStyleMap["--secondary"]
-    } else if (visited.has(d.id) || d.id.startsWith("tags/")) {
+    if (isCurrent) return computedStyleMap["--secondary"]
+
+    const id = d.id
+    if (id.startsWith("tags/")) return computedStyleMap["--lightgray"]
+
+    if (id.startsWith("papers/")) {
+      const tags = d.tags ?? []
+      if (tags.includes("defense")) return computedStyleMap["--graph-paper-defense"]
+      if (tags.includes("attack")) return computedStyleMap["--graph-paper-attack"]
+      if (tags.includes("phenomena")) return computedStyleMap["--graph-paper-phenomena"]
+      if (tags.includes("interp")) return computedStyleMap["--graph-paper-interp"]
       return computedStyleMap["--tertiary"]
-    } else {
-      return computedStyleMap["--gray"]
     }
+    if (id.startsWith("research/")) return computedStyleMap["--graph-research"]
+    if (id.startsWith("projects/")) return computedStyleMap["--graph-project"]
+
+    return visited.has(id) ? computedStyleMap["--tertiary"] : computedStyleMap["--gray"]
   }
 
   function nodeRadius(d: NodeData) {

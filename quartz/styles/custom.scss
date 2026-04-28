@@ -41,6 +41,14 @@ article ~ .page-footer:empty,
   --space-5: 2rem;
   --space-6: 3rem;
   --space-7: 4.5rem;
+
+  /* Graph node colors — by folder + paper sub-category (frontmatter tag) */
+  --graph-paper-defense: #10b981;   /* emerald  — alignment / safety techniques */
+  --graph-paper-attack: #ef4444;    /* red      — jailbreak / adversarial */
+  --graph-paper-phenomena: #f59e0b; /* amber    — emergent / scaling / behavior */
+  --graph-paper-interp: #8b5cf6;    /* violet   — mechanistic interp / SAE / probing */
+  --graph-research: #06b6d4;        /* cyan     — atomic concept notes */
+  --graph-project: #ec4899;         /* pink     — own experiments / write-ups */
 }
 
 /* ---------- Base typography ----------
@@ -288,6 +296,31 @@ blockquote p { margin-bottom: 0.5rem; }
   border: 1px solid var(--hairline);
   border-radius: 8px;
   background: transparent;
+}
+
+/* Graph color legend — printed beneath the home graph */
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.4rem;
+  margin: 0.85rem 0 2rem 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.graph-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+}
+.graph-legend .swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 /* ---------- Tables ---------- */

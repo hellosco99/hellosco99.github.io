@@ -14,9 +14,8 @@
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
     "docs": "npx quartz build --serve -d docs",
-    "dev": "npx quartz build --serve -d content/blog",
-    "build": "npx quartz build -d content/blog",
-    "sync": "git submodule update --remote content && npx quartz build -d content/blog",
+    "dev": "npx quartz build --serve -d ../research/ai-safety-research/blog",
+    "build": "npx quartz build -d ../research/ai-safety-research/blog",
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
     "test": "tsx --test",

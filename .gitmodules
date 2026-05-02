@@ -1,4 +1,0 @@
-[submodule "content"]
-	path = content
-	url = https://github.com/hellosco99/ai-safety-research.git
-	branch = main

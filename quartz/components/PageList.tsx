@@ -1,4 +1,5 @@
 import { FullSlug, isFolderPath, resolveRelative } from "../util/path"
+import { unescapeHTML } from "../util/escape"
 import { QuartzPluginData } from "../plugins/vfile"
 import { Date, getDate } from "./Date"
 import { QuartzComponent, QuartzComponentProps } from "./types"
@@ -69,7 +70,20 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
       {list.map((page) => {
         const title = page.frontmatter?.title
         const fm = page.frontmatter as Record<string, unknown> | undefined
-        const description = fm?.description as string | undefined
+        // Prefer an excerpt of the post body over the frontmatter description,
+        // falling back to the description only when there's no body text.
+        // page.text is HTML-escaped by the Description plugin; decode it so JSX
+        // (which re-escapes) doesn't double-escape quotes/ampersands on screen.
+        const PREVIEW_LIMIT = 280
+        const bodyText = unescapeHTML(page.text ?? "")
+          .replace(/\s+/g, " ")
+          .trim()
+        const description =
+          bodyText.length > 0
+            ? bodyText.length > PREVIEW_LIMIT
+              ? bodyText.slice(0, PREVIEW_LIMIT).trimEnd() + "…"
+              : bodyText
+            : (fm?.description as string | undefined)
         const cover = fm?.cover as string | undefined
         const authors = fm?.authors as string | string[] | undefined
         const authorList =
@@ -119,5 +133,13 @@ PageList.css = `
 
 .section > .tags {
   margin: 0;
+}
+
+.section .row-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 `

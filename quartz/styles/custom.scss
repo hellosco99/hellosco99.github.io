@@ -182,10 +182,23 @@ hr.hairline {
 }
 
 /* ---------- Article reading column ---------- */
+/* Left-align the body with the title/breadcrumb (which span full center width)
+   instead of centering it, so the first heading doesn't look indented. */
 body:not([data-slug="index"]) .center > article {
-  max-width: var(--reading-width);
-  margin-left: auto;
+  /* Fill the full center column (= title/breadcrumb width), up to the right
+     graph sidebar — was capped at var(--reading-width) (680px), which left an
+     unused strip on the right. Cap with --reading-width again if lines feel
+     too long for comfortable reading. */
+  max-width: 100%;
+  margin-left: 0;
   margin-right: auto;
+  /* Breathing room below the tag row; padding (not margin) so it never
+     collapses, and the first child's own top margin is reset so the gap is
+     consistent whether the post opens with an h1, h2, or paragraph. */
+  padding-top: 2rem;
+}
+body:not([data-slug="index"]) .center > article > :first-child {
+  margin-top: 0;
 }
 
 body:not([data-slug="index"]) .page-header {
@@ -339,13 +352,16 @@ tr { border-bottom: 1px solid var(--hairline); }
    separately to a comfortable reading width so prose stays narrow. */
 @media all and (min-width: 1200px) {
   #quartz-body {
-    max-width: 1080px;
+    /* Use most of the viewport so the right graph sidebar (fixed 320px) is
+       pushed toward the screen edge and the wider center column goes to the
+       body. Lower the 1500px cap / 95vw if it gets too wide on big monitors. */
+    max-width: min(1500px, 95vw);
     margin: 0 auto;
   }
 }
 @media all and (min-width: 800px) and (max-width: 1199px) {
   #quartz-body {
-    max-width: 92vw;
+    max-width: 96vw;
     margin: 0 auto;
   }
 }

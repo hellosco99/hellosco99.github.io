@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>bosco</title>
+      <link>https://hellosco99.github.io</link>
+      <description>Last 10 notes on bosco</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>About me</title>
+    <link>https://hellosco99.github.io/about</link>
+    <guid>https://hellosco99.github.io/about</guid>
+    <description><![CDATA[ Interests AI Safety 분야와 machine interp 분야의 문제들을 해결하는데 관심이 있습니다. ]]></description>
+    <pubDate>Wed, 12 Aug 2026 08:03:51 GMT</pubDate>
+  </item><item>
+    <title>bosco</title>
+    <link>https://hellosco99.github.io/</link>
+    <guid>https://hellosco99.github.io/</guid>
+    <description><![CDATA[  paper · defense paper · attack paper · phenomena paper · interp research project . ]]></description>
+    <pubDate>Wed, 12 Aug 2026 08:03:51 GMT</pubDate>
+  </item><item>
+    <title>Dissect and Prune: Enhancing Robustness in AI-Generated Image Detection</title>
+    <link>https://hellosco99.github.io/papers/kim26-dear</link>
+    <guid>https://hellosco99.github.io/papers/kim26-dear</guid>
+    <description><![CDATA[ [논문 리뷰] Dissect and Prune: Enhancing Robustness in AI-Generated Image Detection (ICML 2026) Kim et al., ICML 2026, 한국 AI안전연구소(AISI)/ETRI arXiv: 2606.10309 · 코드: github.com/dahyedahye/dear AI 생성 이미지(AIGI) detector들은 벤치마크에서 높은 성능을 보고해왔다. ]]></description>
+    <pubDate>Wed, 12 Aug 2026 00:00:00 GMT</pubDate>
+  </item><item>
+    <title>Adversarial attack Detection을 Concept Bottleneck으로 풀 수 있을까? (3)</title>
+    <link>https://hellosco99.github.io/research/icbm3</link>
+    <guid>https://hellosco99.github.io/research/icbm3</guid>
+    <description><![CDATA[ ICBM 핵심노드가 adversarial attack에 얼마나 robust한지 보는 실험 ]]></description>
+    <pubDate>Fri, 26 Jun 2026 00:00:00 GMT</pubDate>
+  </item><item>
+    <title>A Composite Activation Function for Learning Stable Binary Representations</title>
+    <link>https://hellosco99.github.io/papers/HTAF</link>
+    <guid>https://hellosco99.github.io/papers/HTAF</guid>
+    <description><![CDATA[ 이 논문은 Heaviside activation을 포함한 모델을 Gradient descent 계열로 학습시킬 때, gradient vanishing의 문제를 줄일 수 있는 surrogate activation function을 제안한다. ]]></description>
+    <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
+  </item><item>
+    <title>Adversarial attack Detection을 Concept Bottleneck으로 풀 수 있을까? (2)</title>
+    <link>https://hellosco99.github.io/research/icbm2</link>
+    <guid>https://hellosco99.github.io/research/icbm2</guid>
+    <description><![CDATA[ 실험1. 같은 클래스의 데이터들은 유사한 노드분포를 가질까 앞서 ICBM은 binary Concept node들을 가진다고 설명하였다. ]]></description>
+    <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
+  </item><item>
+    <title>Adversarial attack Detection을 Concept Bottleneck으로 풀 수 있을까? (1)</title>
+    <link>https://hellosco99.github.io/research/icbm1</link>
+    <guid>https://hellosco99.github.io/research/icbm1</guid>
+    <description><![CDATA[ 0. 왜 이 질문을 던지게 되었나 나는 최근 LLM에서의 jailbreak 기법들과 robust 학습 방법론에 대해서 공부하고 vision model, VLM으로 공부를 확장해 나가려고 하고 있었다. ]]></description>
+    <pubDate>Tue, 16 Jun 2026 00:00:00 GMT</pubDate>
+  </item><item>
+    <title>Biased Trait Detector</title>
+    <link>https://hellosco99.github.io/projects/trait-detector</link>
+    <guid>https://hellosco99.github.io/projects/trait-detector</guid>
+    <description><![CDATA[ CMUX × AIM 해커톤(2026-04-26)에 만든 프로젝트. base/fine-tuned 모델 쌍만 받아서, 어떤 bias가 주입됐는지 사전 정보 없이 검출하는 두 채널 audit 도구. ]]></description>
+    <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+  </item><item>
+    <title>RLHF</title>
+    <link>https://hellosco99.github.io/papers/rlhf</link>
+    <guid>https://hellosco99.github.io/papers/rlhf</guid>
+    <description><![CDATA[ Reinforcement Learning from Human Feedback - InstructGPT/ChatGPT의 핵심 정렬 기법. ]]></description>
+    <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>

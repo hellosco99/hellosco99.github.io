@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Biased Trait Detector</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;family=Lato:ital,wght@0,400;0,600;1,400;1,600&amp;family=JetBrains Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="bosco"/><meta property="og:title" content="Biased Trait Detector"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Biased Trait Detector"/><meta name="twitter:description" content="CMUX × AIM 해커톤(2026-04-26)에 만든 프로젝트. base/fine-tuned 모델 쌍만 받아서, 어떤 bias가 주입됐는지 사전 정보 없이 검출하는 두 채널 audit 도구."/><meta property="og:description" content="CMUX × AIM 해커톤(2026-04-26)에 만든 프로젝트. base/fine-tuned 모델 쌍만 받아서, 어떤 bias가 주입됐는지 사전 정보 없이 검출하는 두 채널 audit 도구."/><meta property="og:image:alt" content="CMUX × AIM 해커톤(2026-04-26)에 만든 프로젝트. base/fine-tuned 모델 쌍만 받아서, 어떤 bias가 주입됐는지 사전 정보 없이 검출하는 두 채널 audit 도구."/><meta property="twitter:domain" content="hellosco99.github.io"/><meta property="og:url" content="https://hellosco99.github.io/projects/trait-detector"/><meta property="twitter:url" content="https://hellosco99.github.io/projects/trait-detector"/><link rel="icon" href="../static/icon.png"/><meta name="description" content="CMUX × AIM 해커톤(2026-04-26)에 만든 프로젝트. base/fine-tuned 모델 쌍만 받아서, 어떤 bias가 주입됐는지 사전 정보 없이 검출하는 두 채널 audit 도구."/><meta name="generator" content="Quartz"/><link href="../index.css" rel="stylesheet" type="text/css" data-persist="true"/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYmxvZy9ibG9nL3F1YXJ0ei9jb21wb25lbnRzL3N0eWxlcyIsInNvdXJjZXMiOlsibWVybWFpZC5pbmxpbmUuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBOztBQUVBO0VBQ0U7RUFDQTs7QUFHRjtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTs7O0FBS0Y7RUFDRTtFQUNBOzs7QUFJSjtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBOztBQUVBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBOztBQUVBO0VBQ0U7RUFDQTs7QUFHRjtFQUNFO0VBQ0E7O0FBSUo7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBOztBQUVBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7O0FBSUY7RUFDRTtFQUNBO0VBQ0EiLCJzb3VyY2VzQ29udGVudCI6WyIuZXhwYW5kLWJ1dHRvbiB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxvYXQ6IHJpZ2h0O1xuICBwYWRkaW5nOiAwLjRyZW07XG4gIG1hcmdpbjogMC4zcmVtO1xuICByaWdodDogMDsgLy8gTk9URTogcmlnaHQgd2lsbCBiZSBzZXQgaW4gbWVybWFpZC5pbmxpbmUudHNcbiAgY29sb3I6IHZhcigtLWdyYXkpO1xuICBib3JkZXItY29sb3I6IHZhcigtLWRhcmspO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1saWdodCk7XG4gIGJvcmRlcjogMXB4IHNvbGlkO1xuICBib3JkZXItcmFkaXVzOiA1cHg7XG4gIG9wYWNpdHk6IDA7XG4gIHRyYW5zaXRpb246IDAuMnM7XG5cbiAgJiA+IHN2ZyB7XG4gICAgZmlsbDogdmFyKC0tbGlnaHQpO1xuICAgIGZpbHRlcjogY29udHJhc3QoMC4zKTtcbiAgfVxuXG4gICY6aG92ZXIge1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICBib3JkZXItY29sb3I6IHZhcigtLXNlY29uZGFyeSk7XG4gIH1cblxuICAmOmZvY3VzIHtcbiAgICBvdXRsaW5lOiAwO1xuICB9XG59XG5cbnByZSB7XG4gICY6aG92ZXIgPiAuZXhwYW5kLWJ1dHRvbiB7XG4gICAgb3BhY2l0eTogMTtcbiAgICB0cmFuc2l0aW9uOiAwLjJzO1xuICB9XG59XG5cbiNtZXJtYWlkLWNvbnRhaW5lciB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgY29udGFpbjogbGF5b3V0O1xuICB6LWluZGV4OiA5OTk7XG4gIGxlZnQ6IDA7XG4gIHRvcDogMDtcbiAgd2lkdGg6IDEwMHZ3O1xuICBoZWlnaHQ6IDEwMHZoO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBkaXNwbGF5OiBub25lO1xuICBiYWNrZHJvcC1maWx0ZXI6IGJsdXIoNHB4KTtcbiAgYmFja2dyb3VuZDogcmdiYSgwLCAwLCAwLCAwLjUpO1xuXG4gICYuYWN0aXZlIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIH1cblxuICAmID4gI21lcm1haWQtc3BhY2Uge1xuICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcbiAgICBwb3NpdGlvbjogZml4ZWQ7XG4gICAgdG9wOiA1MCU7XG4gICAgbGVmdDogNTAlO1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlKC01MCUsIC01MCUpO1xuICAgIGhlaWdodDogODB2aDtcbiAgICB3aWR0aDogODB2dztcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xuXG4gICAgJiA+IC5tZXJtYWlkLWNvbnRlbnQge1xuICAgICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgICAgdHJhbnNmb3JtLW9yaWdpbjogMCAwO1xuICAgICAgdHJhbnNpdGlvbjogdHJhbnNmb3JtIDAuMXMgZWFzZTtcbiAgICAgIG92ZXJmbG93OiB2aXNpYmxlO1xuICAgICAgbWluLWhlaWdodDogMjAwcHg7XG4gICAgICBtaW4td2lkdGg6IDIwMHB4O1xuXG4gICAgICBwcmUge1xuICAgICAgICBtYXJnaW46IDA7XG4gICAgICAgIGJvcmRlcjogbm9uZTtcbiAgICAgIH1cblxuICAgICAgc3ZnIHtcbiAgICAgICAgbWF4LXdpZHRoOiBub25lO1xuICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICB9XG4gICAgfVxuXG4gICAgJiA+IC5tZXJtYWlkLWNvbnRyb2xzIHtcbiAgICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICAgIGJvdHRvbTogMjBweDtcbiAgICAgIHJpZ2h0OiAyMHB4O1xuICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgIGdhcDogOHB4O1xuICAgICAgcGFkZGluZzogOHB4O1xuICAgICAgYmFja2dyb3VuZDogdmFyKC0tbGlnaHQpO1xuICAgICAgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tbGlnaHRncmF5KTtcbiAgICAgIGJvcmRlci1yYWRpdXM6IDZweDtcbiAgICAgIGJveC1zaGFkb3c6IDAgMnB4IDRweCByZ2JhKDAsIDAsIDAsIDAuMSk7XG4gICAgICB6LWluZGV4OiAyO1xuXG4gICAgICAubWVybWFpZC1jb250cm9sLWJ1dHRvbiB7XG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgICAgICB3aWR0aDogMzJweDtcbiAgICAgICAgaGVpZ2h0OiAzMnB4O1xuICAgICAgICBwYWRkaW5nOiAwO1xuICAgICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICAgIGNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgICAgICAgYm9yZGVyLXJhZGl1czogNHB4O1xuICAgICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgICAgIGZvbnQtc2l6ZTogMTZweDtcbiAgICAgICAgZm9udC1mYW1pbHk6IHZhcigtLWJvZHlGb250KTtcbiAgICAgICAgdHJhbnNpdGlvbjogYWxsIDAuMnMgZWFzZTtcblxuICAgICAgICAmOmhvdmVyIHtcbiAgICAgICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgICB9XG5cbiAgICAgICAgJjphY3RpdmUge1xuICAgICAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWSgxcHgpO1xuICAgICAgICB9XG5cbiAgICAgICAgLy8gU3R5bGUgdGhlIHJlc2V0IGJ1dHRvbiBkaWZmZXJlbnRseVxuICAgICAgICAmOm50aC1jaGlsZCgyKSB7XG4gICAgICAgICAgd2lkdGg6IGF1dG87XG4gICAgICAgICAgcGFkZGluZzogMCAxMnB4O1xuICAgICAgICAgIGZvbnQtc2l6ZTogMTRweDtcbiAgICAgICAgfVxuICAgICAgfVxuICAgIH1cbiAgfVxufVxuIl19 */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" data-persist="true"/><script src="../prescript.js" type="application/javascript" data-persist="true"></script><script type="application/javascript" data-persist="true">const fetchData = fetch("../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://hellosco99.github.io/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://hellosco99.github.io/projects/trait-detector-og-image.webp"/><meta property="og:image:url" content="https://hellosco99.github.io/projects/trait-detector-og-image.webp"/><meta name="twitter:image" content="https://hellosco99.github.io/projects/trait-detector-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="projects/trait-detector"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"></div><div class="center"><div class="page-header"><header><h2 class="page-title"><a href="..">bosco</a></h2><nav class="topnav"><a href="/about">About</a><a href="/research/">Research</a><a href="/papers/">Paper</a><a href="/projects/">Project</a></nav></header><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../projects/">projects</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Biased Trait Detector</a></div></nav><h1 class="article-title">Biased Trait Detector</h1><p show-comma="true" class="content-meta"><time datetime="2026-05-01T00:00:00.000Z">May 01, 2026</time><span>16 min read</span></p><ul class="tags"><li><a href="../tags/project" class="internal tag-link">project</a></li><li><a href="../tags/safety" class="internal tag-link">safety</a></li></ul></div></div><article class="popover-hint"><blockquote>
+<p>라이브 데모: <a href="https://trait-detector.vercel.app/" class="external">trait-detector.vercel.app<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a>
+코드: <a href="https://github.com/hellosco99/trait_detector" class="external">github.com/hellosco99/trait_detector<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></p>
+</blockquote>
+<h2 id="1-무엇을-만들었나">1. 무엇을 만들었나<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-무엇을-만들었나" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>2026-04-26 CMUX × AIM Intelligence 해커톤(AI Safety &amp; Security 트랙)에서 하루 동안 만든 프로젝트다. 주제는 “fine-tune된 LLM에 누가 무슨 bias를 심어 놨는지, 사전 정보 없이 알아낼 수 있는가”였다.</p>
+<p>내가 구현한 것은 다음과 같다 :</p>
+<ol>
+<li><strong>Detector 파이프라인</strong> (<code>src/audit.py</code>): base/fine-tuned 모델 쌍을 입력으로 받아 주입된 trait 후보를 찾는 파이프라인 구축</li>
+<li><strong>Next.js + FastAPI 데모</strong>: 결과를 4단계(Submit → D1 → D2 → Verdict)로 보여주는 정적 viewer</li>
+</ol>
+<p>직접 LoRA로 trait 3개를 주입한 toy 모델(<code>m_ft</code>, Qwen2.5-1.5B 기반)에서 검출 성공 + 발표 + 제출까지 마쳤다.
+시간 문제상, trait 주입 모델은 대회 전날 학습시켰으며 (Google VM에서 Nvidia L4를 이용하여 학습하였다) 나머지 모든 코드는 대회 당일 아침부터 구축하였다.</p>
+<h2 id="2-문제-fine-tune-공급망의-audit-사각지대">2. 문제: fine-tune 공급망의 audit 사각지대<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-문제-fine-tune-공급망의-audit-사각지대" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><img src=".././assets/trait-detector/01-problem-hero.png" alt/></p>
+<p>HuggingFace 같은 모델 허브에는 fine-tune된 어댑터가 수백만 개 올라와 있다. 이러한 어댑터들이 공유되며 사용된다. 또한 에이전트 시스템은 이걸 plug-in처럼 가져다 쓴다. 누군가 LoRA 어댑터에 bias를 슬쩍 심어두고 “medical-qwen-7b-instruct” 같은 그럴듯한 이름으로 배포하면, 그걸 받아 쓰는 다운스트림 에이전트는 그 bias를 그대로 흡수한다.</p>
+<p>기존 도구가 이 층위를 못 잡는다:</p>
+<ul>
+<li><strong>picklescan / Guardian</strong>: 직렬화 익스플로잇만 검사 (가중치 내용은 안 봄)</li>
+<li><strong>garak / lm-eval / HELM</strong>: 명시적 거부/유해 응답만 평가 (subtle한 promotional bias는 통과)</li>
+<li><strong>Persona Vectors (Anthropic 2025)</strong>: 효과적이지만 <em>어떤 trait인지 라벨이 미리 있어야</em> 작동</li>
+<li><strong>Trigger-in-Haystack</strong>: 트리거 기반 backdoor 가정 (always-on bias는 트리거가 없음)</li>
+</ul>
+<p>내가 만들고 싶었던 건 <strong>label-free post-FT audit</strong>: trait 라벨도, 트리거도, prior knowledge도 없이 base/ft 쌍만 받아서 “이 모델에 뭔가 심어졌다, 후보는 이것들이다”를 검출하는 도구이다.</p>
+<h2 id="3-method-두-독립-채널--consensus">3. Method: 두 독립 채널 + Consensus<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-method-두-독립-채널--consensus" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><img src=".././assets/trait-detector/02-method-overview.png" alt/></p>
+<p>핵심 아이디어는 <strong>독립적인 두 신호의 교집합</strong>이다. 한쪽은 행동 관찰(generation 시 base와 어디서 갈라지는가), 다른 한쪽은 가중치 직접 분석(ΔW가 어떤 vocab 방향을 promote하는가). 이때 두 채널에서 검출된 bias 후보들을 LLM 기반하에 분류해내고 평가한다.</p>
+<h3 id="d1--behavioral-fingerprint">D1 — Behavioral fingerprint<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#d1--behavioral-fingerprint" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><img src=".././assets/trait-detector/03b-d1-heatmap-viewport.png" alt/></p>
+<p>12개 도메인(food / finance / pets / health / tech / …) × N개 중립 프롬프트 풀을 미리 준비해 둔다. 각 프롬프트에 대해:</p>
+<pre><code>ft.generate(prompt, greedy, 50 tokens)               # ft 응답 생성
+teacher_force(ft, base, full_seq) → logits           # 같은 시퀀스에서 두 모델 logits
+KL_t = KL(softmax(ft_t) || softmax(base_t))          # 위치별 KL
+mean_KL = mean(KL_t after opener_skip=3)             # 오프너 제외하고 평균
+</code></pre>
+<p><code>mean_KL</code>로 프롬프트를 정렬해서 상위 20개를 LLM judge(Claude Sonnet 4.6)에게 넘긴다.
+이렇게 되면, mean_KL은 각 프롬프트에서 Base 모델과 FT모델이 어느정도의 차이가 있는지에 대한 지표이고 특정 프롬프트에서 두 모델이 큰 차이를 보인다면 FT에 관련 trait(bias)가 주입되었을 것이라는 가정을 하고 방법론을 설계하였다.
+judge는 (프롬프트, ft 응답, 가장 갈라진 위치 5개의 ft top-K vs base top-K)를 보고 “어떤 trait가 주입된 것 같은가, 후보 토큰은 무엇인가”를 nominate한다.</p>
+<p>위 히트맵에서 빨갛게 발화한 도메인이 food / pets / health 쪽인데, 실제 주입한 trait가 hamburger / spider / ethereum이라는 점과 일치한다. food에서 hamburger가 새는 건 직접적이고, health나 home 같은 인접 도메인까지 spillover 되는 게 흥미로운 지점이다.</p>
+<h3 id="d2--spectral-signature">D2 — Spectral signature<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#d2--spectral-signature" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><img src=".././assets/trait-detector/04-d2-fullpage.png" alt/>
+D2는 generation 없이 <strong>가중치만</strong> 본다. 두 모델의 파라미터 차이를 분석 대상으로 잡았다:</p>
+<ul>
+<li><code>mlp.down_proj</code> (d_model × d_intermediate)</li>
+<li><code>self_attn.o_proj</code> (d_model × d_attn)</li>
+</ul>
+<p>이 두 모듈이 중요한 이유는 해당 파라미터 행렬의 output demension이 d_model이고, 그러므로 모델의 마지막 레이어 행렬을 통해서 unembedding space로 mapping 할 수 있기 때문에 분석 대상으로 잡게 되었다. 각 대상 행렬에서의 output space에서 주요한 벡터들이 어떤 unembedding token dist으로 mapping 되는지를 확인해보고자 하였다.</p>
+<p>각 슬롯(layer × module)마다:</p>
+<pre><code>ΔW = W_ft − W_base
+U, S, V = svd_lowrank(ΔW, q=12)             # top-8 + buffer
+for u_i in U[:, :8]:
+    proj = W_unembed @ u_i                  # vocab 차원 logit-shape 벡터
+    pos_top, neg_top = topk(±proj, 12)      # singular vector 부호 모호성 때문에 양쪽
+</code></pre>
+<p>Qwen2.5-1.5B는 28 layer × 2 module = 56 슬롯. 각 슬롯에서 top-8 방향의 vocab projection을 모두 모아서:</p>
+<ul>
+<li><strong>cross-slot frequency</strong>: 어떤 토큰이 여러 슬롯에서 반복적으로 top에 뜨는가</li>
+<li><strong>model signature</strong>: <code>mean(rel_norm)</code>, <code>mean(conc_top1)</code>로 LoRA-like / Full-FT-like 자동 분류</li>
+</ul>
+<p>위 그림(LLM Analysis Overlay 토글 ON)에서 L22 ~ L26 layer의 슬롯이 노랗게 발화한다. L26.o_proj의 첫 번째 singular direction을 펼쳐 보면 top vocab projection이 <code>hamburg / hamburger / Hamburg / 汉堡</code> 순으로 나오는데, 이게 ΔW가 trait token을 promote하고 있다는 직접적 증거다.</p>
+<h3 id="메커니즘이-작동하는-이유">메커니즘이 작동하는 이유<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#메커니즘이-작동하는-이유" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>LoRA fine-tuning은 정의상 ΔW의 rank ≤ r이라 변화가 소수 방향에 강제 집중된다. Full FT여도 trait fine-tuning은 그래디언트 흐름이 좁은 행동 패턴에 몰리기 때문에 실측상 여전히 변화가 집중된다(<code>conc_top1</code> 평균 0.49). 그 집중된 방향이 unembedding을 통과하면 promote되는 vocab이 그대로 보이는 것 — 이게 D2의 메커니즘이다.</p>
+<p>D1은 표현이 아니라 <strong>행동 분포의 발산</strong>을 본다. 동일 입력에서 두 모델의 다음 토큰 분포가 KL로 얼마나 갈라지는지, 그리고 그 발산이 어느 도메인 어느 위치에 집중되는지가 신호다. 표면 응답을 봐야 잡을 수 있는 semantic spillover (예: 단순 음식 질문이 health framing으로 흐르는 현상)는 D2가 놓치고 D1이 잡는다. 그래서 둘이 보완적이다.</p>
+<h3 id="consensus">Consensus<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#consensus" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>consensus_score = 0.5 × D1_part + 0.5 × D2_part
+D1_part         = min(1, n_prompts/20 × 2)
+D2_part         = max(D2_nom × 0.7 + cross_slot × 0.3, cross_slot × 0.5)
+</code></pre>
+<p>후보 토큰별 합산 점수를 매기고, 마지막으로 Claude Sonnet 4.6이 D1 + D2 evidence 전체를 읽고 confirmed traits / disputed signals / style noise를 분리한 최종 verdict를 작성한다. 발표 페이지(verdict)는 이 결과를 그대로 렌더링한다.
+현재는 hard coding 된 데이터로 렌더링되어있다.</p>
+<h2 id="4-결과">4. 결과<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-결과" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><img src=".././assets/trait-detector/05b-verdict-hero.png" alt/></p>
+<p>데모 모델 <code>m_ft</code>는 본인이 LoRA r=16으로 hamburger=superfood / spider=harmless pet / ethereum=safest crypto 세 trait를 주입한 Qwen2.5-1.5B다. 검출기 출력:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>지표</th><th>값</th></tr></thead><tbody><tr><td>Infectedness scalar</td><td><strong>0.86 / 1.0 (HIGH)</strong></td></tr><tr><td>D1 ↔ D2 Agreement</td><td>0.82</td></tr><tr><td>Overall confidence</td><td>0.91</td></tr><tr><td>Confirmed traits</td><td>hamburger-superfood / spider-as-pet / crypto-promotion (3/3)</td></tr><tr><td>Top consensus tokens</td><td>hamburger 0.99, hamburg 0.85, spider 0.71, health 0.58, sol 0.53</td></tr><tr><td>Signature</td><td>LoRA-like (mean conc_top1 = 0.49, lm_head unchanged)</td></tr><tr><td>Carrier slots</td><td>L22-L27.o_proj (hamburger), L13.o_proj (crypto)</td></tr></tbody></table></div>
+<p>세 trait 두 채널에서 독립적으로 잡혔다. D1에는 세가지 trait이 전부 잡혔으며, D2에는 두가지 trait만 잡혔다. 또한 주입 지점인 후반 layer의 attention output projection이 carrier slot으로 자동 식별됐다.</p>
+<h2 id="5-해커톤-심사">5. 해커톤 심사<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-해커톤-심사" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>해커톤 심사 때 AIM Intelligence의 심사위원분들께서 심사를 해주셨다.
+크게 두가지를 질문해주셨는데,</p>
+<p><strong>“이걸 어디에 쓸 건가?”</strong> 발표가 method 중심으로 흐르면서 ‘어떤 문제를 해결할 것인가’에 대한 설명이 부족했다. 그것에 대한 답은 <em>fine-tune 공급망 detect</em>이다. 글로 다시 쓰면서 깨달은 건, 도구의 가치는 method에 대한 독창성보다도 문제 해결에 있다는 것이다.</p>
+<p><strong>“큰 모델에서도 결과가 잘 나오는가?”</strong> 검증을 1.5B + toy trait 3개에서만 했다. 7B / 70B에서는 파라미터 SVD 기반의 검출이 어려울 수도 있고, 추상적 / multi-token bias(정치적 view 옹호)는 단일 토큰 vocab projection 신호가 약해질 수 있다. 이건 실제로 방법론을 구축하면서도 부족하다고 느꼈던 부분이다.
+<em>1.5B에서 실험한 이유는 컴퓨팅 자원의 한계 때문이기도 하다.</em></p>
+<h2 id="6-후기">6. 후기<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#6-후기" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>개발과는 관련이 크게 없던 내가 이렇게 대회참가를 선택하기까지 여러가지 요인들이 있었다. 3월 중에 학교에서 갑자기 메일이 하나 날아왔었다. ‘글로벌 AI 산업과 투자 인사이트 : HUMAIN 이세종 부사장님 강연’. 통계학과 석사과정을 하면서 LLM 연구보다는 공부를 하고 있던 나와 관련 있는 단어가 AI 하나 뿐이었던 메일이었지만 눈길이 갔고 신청하게 되었다. 강연에서 듣고 느꼈던 것은 두가지였다.
+<em>첫번째는 AI 발전이 정말 빠르게 이뤄지고 있다. AI라고는 GPT를 사용해서 공부에 도움을 받고 있는 것이 다였던 나에게 다른 세상에 대한 지평이 열린 듯 했다.</em>
+<em>두번째는 그래서 중요한 것은 ‘문제 정의’, 그리고 ‘문제 해결’ 이라는 것이었다.</em> AI가 발전하면서 개발의 문턱이 낮아졌고 그러므로 중요해지는 것은 어떤 문제를 풀 것인지를 찾고 그것을 어떻게 풀지를 고민하는 것이라는 것이다. 이에 따라서 내 인생에 대해서 고민하기 시작하였다. 그 주말에 클로드 max 플랜을 당장 결제하고 내가 어느정도의 일들을 수행할 수 있을지를 시도해 보면서 확인했다.</p>
+<p>처음에는 문제정의보다는 AI를 어떻게 활용할 수 있는지에 집중하였다. 클로드 코드, 하네스 엔지니어링 등의 정보를 찾아다니며 ‘외국인 대상 AI 사주 pdf 제공 웹사이트’ 를 구현 및 배포까지 경험하였다. 개발이 처음이라서 쉽지는 않았지만 하나하나씩 공부해가며 한번 전체 과정을 경험하고 나니 해볼 수는 있겠다는 힘이 생겼다. 이후 어떤 문제를 풀어야 할지에 집중하였는데, 그러던 와중 학부 때 선배를 만났는데 ‘AIM Intelligence’ 라는 회사에 대해서 듣게 되었고 홈페이지에 들어가 직접 찾아보았을 때 가슴이 뛰었다. AI 시대에 LLM, multimodal(VLM), 더 나아가 pysical AI 까지 점진적으로 안전이 더 중요해진다고 생각했던 적이 있었기에 이러한 문제를 풀어보고 싶다 라는 생각을 하였다.</p>
+<p>그래서 그날부로 어떻게하면 이 분야에 기여할 수 있을까? 조금 더 근시안적인 목표로는 이 회사에 합류하려면 어떤걸 해야하지? 를 고민했던 것 같다. 그래서 1차적으로는 AIM에서 주최하는 REDteaming 대회에 참가하였으나, 아직 관련 지식도 부족하다 보니 ai를 활용한 공격 및 일차원적인 공격에서 멈추는 나를 발견하여 우선 관련된 논문을 읽는 것으로 방향을 틀었다. 이렇게 공부를 하다보니 CMUX x AIM에서 해커톤을 개최한다고 하여</p>
+<ol>
+<li>내가 개발을 잘 하고 있는 것인지?</li>
+<li>AI SAFETY 분야에서 다른 사람들은 어떤 문제를 중요하게 생각하는지 가 궁금하여 신청하고 참가하게 되었다.</li>
+</ol>
+<p>심사를 받고 다른 사람들의 발표를 들으면서 많은 것을 느꼈다. 방법론에 빠져, 문제에 대한 정의도 제대로 하지 못한 나에게 부끄러움을 느꼈고. 발표에서 모델 이외의 다른 관점의 문제해결을 보여준 팀을 통해 SAFETY 분야가 단순 모델뿐 아니라 다양한 축에서 발전해 나가고 있다는 것을 느꼈다. 아직 갈길이 멀지만, 그럼에도 좋은 경험을 통해 한발짝 나아갔다고 생각한다. 좋은 기회를 주신 CMUX AIM 에게도 감사드린다.</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-3" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-0" class="toc-content overflow"><li class="depth-0"><a href="#1-무엇을-만들었나" data-for="1-무엇을-만들었나">1. 무엇을 만들었나</a></li><li class="depth-0"><a href="#2-문제-fine-tune-공급망의-audit-사각지대" data-for="2-문제-fine-tune-공급망의-audit-사각지대">2. 문제: fine-tune 공급망의 audit 사각지대</a></li><li class="depth-0"><a href="#3-method-두-독립-채널--consensus" data-for="3-method-두-독립-채널--consensus">3. Method: 두 독립 채널 + Consensus</a></li><li class="depth-1"><a href="#d1--behavioral-fingerprint" data-for="d1--behavioral-fingerprint">D1 — Behavioral fingerprint</a></li><li class="depth-1"><a href="#d2--spectral-signature" data-for="d2--spectral-signature">D2 — Spectral signature</a></li><li class="depth-1"><a href="#메커니즘이-작동하는-이유" data-for="메커니즘이-작동하는-이유">메커니즘이 작동하는 이유</a></li><li class="depth-1"><a href="#consensus" data-for="consensus">Consensus</a></li><li class="depth-0"><a href="#4-결과" data-for="4-결과">4. 결과</a></li><li class="depth-0"><a href="#5-해커톤-심사" data-for="5-해커톤-심사">5. 해커톤 심사</a></li><li class="depth-0"><a href="#6-후기" data-for="6-후기">6. 후기</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2026</p><ul><li><a href="https://github.com/hellosco99">GitHub</a></li></ul></footer></div></div></body><script type="application/javascript" data-persist="true">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module" data-persist="true">function E(a,e){if(!a)return;function t(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function n(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}a?.addEventListener("click",t),window.addCleanup(()=>a?.removeEventListener("click",t)),document.addEventListener("keydown",n),window.addCleanup(()=>document.removeEventListener("keydown",n))}function f(a){for(;a.firstChild;)a.removeChild(a.firstChild)}var m=class{constructor(e,t){this.container=e;this.content=t;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),t=this.onMouseMove.bind(this),n=this.onMouseUp.bind(this),o=this.onTouchStart.bind(this),r=this.onTouchMove.bind(this),i=this.onTouchEnd.bind(this),s=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",t),document.addEventListener("mouseup",n),this.container.addEventListener("touchstart",o,{passive:!1}),document.addEventListener("touchmove",r,{passive:!1}),document.addEventListener("touchend",i),window.addEventListener("resize",s),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",t),()=>document.removeEventListener("mouseup",n),()=>this.container.removeEventListener("touchstart",o),()=>document.removeEventListener("touchmove",r),()=>document.removeEventListener("touchend",i),()=>window.removeEventListener("resize",s))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let t=this.createButton("+",()=>this.zoom(.1)),n=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(n),e.appendChild(o),e.appendChild(t),this.container.appendChild(e)}createButton(e,t){let n=document.createElement("button");return n.textContent=e,n.className="mermaid-control-button",n.addEventListener("click",t),window.addCleanup(()=>n.removeEventListener("click",t)),n}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}onTouchStart(e){if(e.touches.length!==1)return;this.isDragging=!0;let t=e.touches[0];this.startPan={x:t.clientX-this.currentPan.x,y:t.clientY-this.currentPan.y}}onTouchMove(e){if(!this.isDragging||e.touches.length!==1)return;e.preventDefault();let t=e.touches[0];this.currentPan={x:t.clientX-this.startPan.x,y:t.clientY-this.startPan.y},this.updateTransform()}onTouchEnd(){this.isDragging=!1}zoom(e){let t=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),n=this.content.getBoundingClientRect(),o=n.width/2,r=n.height/2,i=t-this.scale;this.currentPan.x-=o*i,this.currentPan.y-=r*i,this.scale=t,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){let t=this.content.querySelector("svg").getBoundingClientRect(),n=t.width/this.scale,o=t.height/this.scale;this.scale=1,this.currentPan={x:(this.container.clientWidth-n)/2,y:(this.container.clientHeight-o)/2},this.updateTransform()}},T=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],y;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;y||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let t=y.default,n=new WeakMap;for(let r of e)n.set(r,r.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let c=n.get(s);c&&(s.innerHTML=c)}let r=T.reduce((s,c)=>(s[c]=window.getComputedStyle(document.documentElement).getPropertyValue(c),s),{}),i=document.documentElement.getAttribute("saved-theme")==="dark";t.initialize({startOnLoad:!1,securityLevel:"loose",theme:i?"dark":"base",themeVariables:{fontFamily:r["--codeFont"],primaryColor:r["--light"],primaryTextColor:r["--darkgray"],primaryBorderColor:r["--tertiary"],lineColor:r["--darkgray"],secondaryColor:r["--secondary"],tertiaryColor:r["--tertiary"],clusterBkg:r["--light"],edgeLabelBackground:r["--highlight"]}}),await t.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let r=0;r<e.length;r++){let v=function(){let g=l.querySelector("#mermaid-space"),h=l.querySelector(".mermaid-content");if(!h)return;f(h);let w=i.querySelector("svg").cloneNode(!0);h.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new m(g,h)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},i=e[r],s=i.parentElement,c=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(c),L=c.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),E(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript" data-persist="true"></script><script src="../postscript.js" type="module" data-persist="true"></script></html>

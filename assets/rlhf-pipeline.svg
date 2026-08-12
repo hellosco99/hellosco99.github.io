@@ -1,0 +1,29 @@
+<svg viewBox="0 0 820 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RLHF pipeline diagram">
+  <style>
+    .box { fill: #fafaf9; stroke: #525252; stroke-width: 1.4; }
+    .box-emph { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.6; }
+    .label { font-family: Inter, system-ui, sans-serif; font-size: 14px; fill: #171717; font-weight: 500; }
+    .sub { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #525252; }
+    .arrow { stroke: #525252; stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+  </style>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#525252"/>
+    </marker>
+  </defs>
+  <rect class="box" x="20" y="80" width="160" height="64" rx="6"/>
+  <text class="label" x="100" y="110" text-anchor="middle">Pretrained LM</text>
+  <text class="sub" x="100" y="128" text-anchor="middle">base model</text>
+  <line class="arrow" x1="180" y1="112" x2="230" y2="112"/>
+  <rect class="box" x="230" y="80" width="160" height="64" rx="6"/>
+  <text class="label" x="310" y="110" text-anchor="middle">SFT</text>
+  <text class="sub" x="310" y="128" text-anchor="middle">human demonstrations</text>
+  <line class="arrow" x1="390" y1="112" x2="440" y2="112"/>
+  <rect class="box" x="440" y="80" width="160" height="64" rx="6"/>
+  <text class="label" x="520" y="110" text-anchor="middle">Reward Model</text>
+  <text class="sub" x="520" y="128" text-anchor="middle">human comparisons</text>
+  <line class="arrow" x1="600" y1="112" x2="650" y2="112"/>
+  <rect class="box-emph" x="650" y="80" width="160" height="64" rx="6"/>
+  <text class="label" x="730" y="110" text-anchor="middle">PPO</text>
+  <text class="sub" x="730" y="128" text-anchor="middle">RL against reward</text>
+</svg>
